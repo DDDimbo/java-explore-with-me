@@ -1,15 +1,45 @@
 version: '3.1'
 services:
-  stats-server:
+  statistic:
+    build: ./statistic
+    image: ewm-stats-image
+    container_name: ewm-stats-container
     ports:
       - "9090:9090"
+    depends_on:
+      - major
+      - stats-db
+    #    environment:
+    #      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
 
   stats-db:
     image: postgres:14-alpine
+    container_name: postgre-ewm-major
+    #    ports:
+    #      - "6541:5432"
+    #    environment:
+    #      - POSTGRES_DB=shareit
+    #      - POSTGRES_USER=dimbo
+    #      - POSTGRES_PASSWORD=7777
 
-  ewm-service:
+  major:
+    build: ./major
+    image: ewm-major-image
+    container_name: ewm-major-container
     ports:
       - "8080:8080"
+    depends_on:
+      - major-db
+    environment:
+      - EWM_STATS_URL=http://statistic:9090
+    #      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
 
-  ewm-db:
+  major-db:
     image: postgres:14-alpine
+    container_name: postgre-ewm-major
+    #    ports:
+    #      - "6541:5432"
+    #    environment:
+    #      - POSTGRES_DB=shareit
+    #      - POSTGRES_USER=dimbo
+    #      - POSTGRES_PASSWORD=7777
