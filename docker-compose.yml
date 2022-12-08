@@ -1,7 +1,7 @@
 version: '3.1'
 services:
 
-  statistic:
+  stats-server:
     build: ./statistic
     image: ewm-stats-image
     container_name: ewm-stats-container
@@ -26,22 +26,22 @@ services:
       - POSTGRES_USER=stat
       - POSTGRES_PASSWORD=777777
 
-  major:
+  ewm-service:
     build: ./major
     image: ewm-major-image
     container_name: ewm-major-container
     ports:
       - "8080:8080"
     depends_on:
-      - major-db
-      - statistic
+      - ewm-db
+      - stats-server
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://major-db:5432/ewm-major
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm-major
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=228228
-      - STATISTIC_URL=http://statistic:9090
+      - STATISTIC_URL=http://stats-server:9090
 
-  major-db:
+  ewm-db:
     image: postgres:14-alpine
     container_name: postgre-ewm-major
     ports:
