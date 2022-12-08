@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MyConstants {
 
-    public final static String SERVICE = "ewm-main-service";
+    public static final String SERVICE = "ewm-main-service";
 }

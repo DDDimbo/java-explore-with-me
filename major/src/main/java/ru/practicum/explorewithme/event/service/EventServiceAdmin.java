@@ -16,6 +16,7 @@ public interface EventServiceAdmin {
                                       LocalDateTime rangeEnd,
                                       Integer from,
                                       Integer size);
+
     EventFullDto update(Long eventId, NewEventDto updateEvent);
 
     EventFullDto publish(Long eventId);

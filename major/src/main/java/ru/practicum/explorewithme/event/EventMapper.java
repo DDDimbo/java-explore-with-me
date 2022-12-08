@@ -18,7 +18,7 @@ import ru.practicum.explorewithme.user.dto.UserShortDto;
 import java.time.LocalDateTime;
 
 @Component
-@NoArgsConstructor(access= AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EventMapper {
 
     public static Event toEventCreate(User initiator, Category category, NewEventDto eventDto) {

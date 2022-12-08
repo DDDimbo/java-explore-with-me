@@ -80,7 +80,7 @@ public class Event {
     @PositiveOrZero
     private Long confirmedRequests = 0L;
 
-    public Event(){
+    public Event() {
 
     }
 
