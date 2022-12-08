@@ -1,5 +1,5 @@
 # java-explore-with-me
-Template repository for ExploreWithMe project.
-
+https://github.com/DDDimbo/java-explore-with-me/pull/2
+Добрый день, проект не прошел все тесты постман на гитхабе, но все тесты локально проходят, решил отправить раьоту сразу, потому что осталось мало времени на сдачу, после вуза исправлю работу до конца, если вы еще не проверите ее
 
 ![image](https://user-images.githubusercontent.com/92802270/202913355-363b3250-87f9-42a5-ae68-ca25ad04d440.png)
