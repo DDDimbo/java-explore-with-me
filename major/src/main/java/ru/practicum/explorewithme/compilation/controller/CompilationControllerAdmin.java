@@ -22,7 +22,7 @@ public class CompilationControllerAdmin {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto create(@Valid @RequestBody NewCompilationDto newCompilationDto) {
-        log.info("Create compilation by admin");
+        log.info("Create compilation with title - {} by admin", newCompilationDto.getTitle());
         return compilationService.create(newCompilationDto);
     }
 

@@ -18,10 +18,7 @@ import ru.practicum.explorewithme.statistic.dto.ViewStats;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -30,8 +27,6 @@ import java.util.List;
 public class StatServiceImpl implements StatService {
 
     private final StatRepository statsRepository;
-
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @PersistenceContext
     private EntityManager em;
@@ -44,11 +39,9 @@ public class StatServiceImpl implements StatService {
 
     @Override
     public List<ViewStats> findAllByParams(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        System.out.println(start + "   " + end);
         final JPAQuery<Stat> query = new JPAQuery<>(em);
         final QStat stat = QStat.stat;
         final BooleanBuilder where = new BooleanBuilder();
-//        where.and(stat.timestamp.between(decodeLocalDateTimeValue(start), decodeLocalDateTimeValue(end)));
         where.and(stat.timestamp.between(start, end));
         if (uris != null)
             where.and(stat.uri.in(uris));
@@ -61,9 +54,5 @@ public class StatServiceImpl implements StatService {
                 .where(where)
                 .groupBy(stat.app, stat.uri)
                 .fetch();
-    }
-
-    private LocalDateTime decodeLocalDateTimeValue(String time) {
-        return  LocalDateTime.parse(URLDecoder.decode(time, StandardCharsets.UTF_8), formatter);
     }
 }

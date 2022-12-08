@@ -10,6 +10,8 @@ import ru.practicum.explorewithme.event.dto.EventFullDto;
 import ru.practicum.explorewithme.event.dto.NewEventDto;
 import ru.practicum.explorewithme.event.service.EventServiceAdmin;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,17 +29,19 @@ public class EventControllerAdmin {
             @RequestParam(value = "users", required = false) List<Long> users,
             @RequestParam(value = "states", required = false) List<State> states,
             @RequestParam(value = "categories", required = false) List<Long> categories,
-            @RequestParam(value = "rangeStart", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-            @RequestParam(value = "rangeEnd", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-            @RequestParam(value = "from", defaultValue = "0") Integer from,
-            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+            @RequestParam(value = "rangeStart", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+            LocalDateTime rangeStart,
+            @RequestParam(value = "rangeEnd", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+            LocalDateTime rangeEnd,
+            @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(value = "size", defaultValue = "10") @PositiveOrZero Integer size) {
         log.info("Find all by parameters for admin layer");
         return eventServiceAdmin.findAllByParam(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PutMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto update(@PathVariable(value = "eventId") Long eventId,
+    public EventFullDto update(@PathVariable(value = "eventId") @Positive Long eventId,
                                @RequestBody NewEventDto updateEvent) {
         log.info("Update(put) event with id={} for admin layer", eventId);
         return eventServiceAdmin.update(eventId, updateEvent);
@@ -45,14 +49,14 @@ public class EventControllerAdmin {
 
     @PatchMapping("/{eventId}/publish")
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto publish(@PathVariable(value = "eventId") Long eventId) {
+    public EventFullDto publish(@PathVariable(value = "eventId") @Positive Long eventId) {
         log.info("Published event with id={}", eventId);
         return eventServiceAdmin.publish(eventId);
     }
 
     @PatchMapping("/{eventId}/reject")
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto reject(@PathVariable(value = "eventId") Long eventId) {
+    public EventFullDto reject(@PathVariable(value = "eventId") @Positive Long eventId) {
         log.info("Rejected event with id={}", eventId);
         return eventServiceAdmin.reject(eventId);
     }

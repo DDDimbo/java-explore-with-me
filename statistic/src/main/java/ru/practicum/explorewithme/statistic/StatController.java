@@ -35,11 +35,9 @@ public class StatController {
 
     @GetMapping("/stats")
     @ResponseStatus(HttpStatus.OK)
-    public List<ViewStats> findAllByParams(@RequestParam
-                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public List<ViewStats> findAllByParams(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                                            LocalDateTime start,
-                                           @RequestParam
-                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                                            LocalDateTime end,
                                            @RequestParam(value = "uris", required = false) List<String> uris,
                                            @RequestParam(value = "unique", defaultValue = "false") Boolean unique,

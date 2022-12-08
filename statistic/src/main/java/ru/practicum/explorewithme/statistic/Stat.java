@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.statistic;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,13 +40,13 @@ public class Stat {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Stat stat = (Stat) o;
         return Objects.equals(id, stat.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

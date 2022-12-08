@@ -9,6 +9,8 @@ import ru.practicum.explorewithme.markerinterface.Create;
 import ru.practicum.explorewithme.user.dto.UserDto;
 import ru.practicum.explorewithme.user.service.UserServiceAdmin;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,8 +34,8 @@ public class UserControllerAdmin {
     @ResponseStatus(HttpStatus.OK)
     public Collection<UserDto> findAllByParam(
             @RequestParam(value = "ids", required = false) List<Long> ids,
-            @RequestParam(value = "from", defaultValue = "0") Integer from,
-            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+            @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(value = "size", defaultValue = "10") @PositiveOrZero Integer size) {
         if (ids == null) {
             log.info("Find all users from {} and with size {}", from, size);
             return userService.findAll(from, size);
@@ -44,7 +46,7 @@ public class UserControllerAdmin {
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteById(@PathVariable Long userId) {
+    public void deleteById(@PathVariable @Positive Long userId) {
         log.info("Delete user with id {}.", userId);
         userService.deleteById(userId);
     }

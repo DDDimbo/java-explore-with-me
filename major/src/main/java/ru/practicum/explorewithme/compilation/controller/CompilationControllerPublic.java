@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.compilation.dto.CompilationDto;
 import ru.practicum.explorewithme.compilation.service.CompilationServicePublic;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -20,8 +22,8 @@ public class CompilationControllerPublic {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CompilationDto> findAllByParams(@RequestParam(required = false) Boolean pinned,
-                                @RequestParam(defaultValue = "0") Integer from,
-                                @RequestParam(defaultValue = "10") Integer size) {
+                                                @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                                @RequestParam(defaultValue = "10") @PositiveOrZero Integer size) {
         log.info("Find all compilations by params for public layer");
         if (pinned == null)
             return compilationServicePublic.findAll(from, size);
@@ -30,7 +32,7 @@ public class CompilationControllerPublic {
 
     @GetMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
-    public CompilationDto findById(@PathVariable(name = "compId") Long compilationId) {
+    public CompilationDto findById(@PathVariable(name = "compId") @Positive Long compilationId) {
         log.info("Find compilation by id={} for public layer", compilationId);
         return compilationServicePublic.findById(compilationId);
     }

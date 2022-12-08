@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.category.CategoryDto;
 import ru.practicum.explorewithme.category.service.CategoryServicePublic;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -20,15 +22,15 @@ public class CategoryControllerPublic {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CategoryDto> findAll(@RequestParam(value = "from", defaultValue = "0") Integer from,
-                                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    public List<CategoryDto> findAll(@RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                     @RequestParam(value = "size", defaultValue = "10") @PositiveOrZero Integer size) {
         log.info("Find all categories for public layer");
         return categoryServicePublic.findAll(from, size);
     }
 
     @GetMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
-    public CategoryDto findById(@PathVariable(value = "catId") Long categoryId) {
+    public CategoryDto findById(@PathVariable(value = "catId") @Positive Long categoryId) {
         log.info("Find all by category with id={} for public layer", categoryId);
         return categoryServicePublic.findById(categoryId);
     }

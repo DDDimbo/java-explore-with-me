@@ -35,7 +35,7 @@ public class ErrorHandler {
     @ExceptionHandler({RangeTimeException.class, ParticipantLimitEndException.class, DublicateRequestException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiError handleForbiddenException(final RuntimeException e) {
-        log.error("Не выполнены условия для совершения операции (403) - {} ", e.getMessage(), e);
+        log.warn("Не выполнены условия для совершения операции (403) - {} ", e.getMessage(), e);
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -50,7 +50,7 @@ public class ErrorHandler {
             IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFoundException(final RuntimeException e) {
-        log.error("Объект не найден (404) - {}", e.getMessage(), e);
+        log.warn("Объект не найден (404) - {}", e.getMessage(), e);
         return ApiError.builder()
                 .message(e.getMessage())
                 .reason("The required object was not found.")

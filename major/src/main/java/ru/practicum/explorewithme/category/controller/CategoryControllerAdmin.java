@@ -22,7 +22,7 @@ public class CategoryControllerAdmin {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto create(@Valid @RequestBody CategoryDto categoryDto) {
-        log.info("Create category by admin");
+        log.info("Create new category with name - {} by admin", categoryDto.getName());
         return categoryService.create(categoryDto);
     }
 

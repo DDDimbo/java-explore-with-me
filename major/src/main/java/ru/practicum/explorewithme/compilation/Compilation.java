@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.compilation;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 import ru.practicum.explorewithme.event.Event;
 
 import javax.persistence.*;
@@ -45,13 +46,13 @@ public class Compilation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Compilation that = (Compilation) o;
         return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

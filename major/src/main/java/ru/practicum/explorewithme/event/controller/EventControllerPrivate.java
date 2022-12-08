@@ -13,6 +13,7 @@ import ru.practicum.explorewithme.markerinterface.Create;
 import ru.practicum.explorewithme.request.ParticipationRequestDto;
 
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class EventControllerPrivate {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto create(@PathVariable Long userId,
+    public EventFullDto create(@PathVariable @Positive Long userId,
                                @RequestBody @Validated(Create.class) NewEventDto eventDto) {
         log.info("Create event by user with id={}", userId);
         return eventServicePrivate.create(userId, eventDto);
@@ -71,8 +72,8 @@ public class EventControllerPrivate {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<EventFullDto> findAllByUser(@PathVariable @Positive Long userId,
-                                            @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                            @RequestParam(name = "size", defaultValue = "10") Integer size) {
+                                            @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                            @RequestParam(name = "size", defaultValue = "10") @PositiveOrZero Integer size) {
         log.info("Find all events by user with id={}", userId);
         return eventServicePrivate.findAllByUser(userId, from, size);
     }

@@ -13,17 +13,16 @@ import reactor.core.publisher.Mono;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
+
+import static ru.practicum.explorewithme.utility.MyConstants.formatter;
 
 @Service
 @RequiredArgsConstructor
 public class StatWebClient {
 
     private final WebClient client;
-
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     public StatWebClient(@Value("${explorewithme-statistic.url}") String serverUrl) {

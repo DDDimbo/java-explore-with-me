@@ -12,6 +12,7 @@ import ru.practicum.explorewithme.event.service.EventServicePublic;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,8 +37,8 @@ public class EventControllerPublic {
                                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                                                        LocalDateTime rangeEnd,
                                                        @RequestParam(defaultValue = "false") Boolean onlyAvailable,
-                                                       @RequestParam(defaultValue = "0") Integer from,
-                                                       @RequestParam(defaultValue = "10") Integer size,
+                                                       @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                                       @RequestParam(defaultValue = "10") @PositiveOrZero  Integer size,
                                                        @RequestParam(required = false) Sorted sort,
                                                        HttpServletRequest request) {
         log.info("Get events info for public layer. Client ip: {}, endpoint path: {}",
