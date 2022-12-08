@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import ru.practicum.explorewithme.category.CategoryDto;
-import ru.practicum.explorewithme.enums.State;
 import ru.practicum.explorewithme.user.dto.UserShortDto;
 
 import javax.validation.constraints.NotNull;

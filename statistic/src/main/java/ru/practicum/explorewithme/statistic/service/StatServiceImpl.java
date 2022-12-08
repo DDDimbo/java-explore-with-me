@@ -19,12 +19,10 @@ import ru.practicum.explorewithme.statistic.dto.ViewStats;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)

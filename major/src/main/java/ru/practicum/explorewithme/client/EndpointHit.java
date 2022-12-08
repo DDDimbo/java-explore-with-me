@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.client;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

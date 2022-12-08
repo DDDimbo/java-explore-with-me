@@ -1,14 +1,11 @@
 package ru.practicum.explorewithme.event.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.category.Category;
 import ru.practicum.explorewithme.category.CategoryRepository;
-import ru.practicum.explorewithme.client.StatWebClient;
-import ru.practicum.explorewithme.client.ViewStats;
 import ru.practicum.explorewithme.enums.State;
 import ru.practicum.explorewithme.enums.Status;
 import ru.practicum.explorewithme.event.Event;
@@ -26,13 +23,9 @@ import ru.practicum.explorewithme.user.User;
 import ru.practicum.explorewithme.user.UserRepository;
 import ru.practicum.explorewithme.utility.FromSizeRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import static ru.practicum.explorewithme.utility.MyConstants.SERVICE;
 
 @Service
 @Transactional(readOnly = true)

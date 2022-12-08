@@ -2,9 +2,7 @@ package ru.practicum.explorewithme.event;
 
 import lombok.*;
 import ru.practicum.explorewithme.category.Category;
-import ru.practicum.explorewithme.compilation.Compilation;
 import ru.practicum.explorewithme.enums.State;
-import ru.practicum.explorewithme.request.Request;
 import ru.practicum.explorewithme.user.User;
 
 import javax.persistence.*;
@@ -12,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
 @AllArgsConstructor
 @Builder

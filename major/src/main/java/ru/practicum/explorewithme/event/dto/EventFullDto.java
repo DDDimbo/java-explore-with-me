@@ -1,11 +1,9 @@
 package ru.practicum.explorewithme.event.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import lombok.extern.jackson.Jacksonized;
 import ru.practicum.explorewithme.category.CategoryDto;
 import ru.practicum.explorewithme.enums.State;
 import ru.practicum.explorewithme.markerinterface.Create;

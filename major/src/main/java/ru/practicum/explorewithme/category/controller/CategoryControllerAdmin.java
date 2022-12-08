@@ -7,7 +7,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.category.CategoryDto;
 import ru.practicum.explorewithme.category.service.CategoryServiceAdmin;
-import ru.practicum.explorewithme.markerinterface.Create;
 import ru.practicum.explorewithme.markerinterface.Update;
 
 import javax.validation.Valid;

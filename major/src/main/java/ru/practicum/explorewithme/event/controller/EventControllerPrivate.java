@@ -11,7 +11,6 @@ import ru.practicum.explorewithme.event.dto.UpdateEventRequest;
 import ru.practicum.explorewithme.event.service.EventServicePrivate;
 import ru.practicum.explorewithme.markerinterface.Create;
 import ru.practicum.explorewithme.request.ParticipationRequestDto;
-import ru.practicum.explorewithme.request.service.RequestServicePrivate;
 
 import javax.validation.constraints.Positive;
 import java.util.List;

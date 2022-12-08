@@ -2,7 +2,6 @@ package ru.practicum.explorewithme.event.service.impl;
 
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +10,8 @@ import ru.practicum.explorewithme.category.CategoryRepository;
 import ru.practicum.explorewithme.enums.State;
 import ru.practicum.explorewithme.event.Event;
 import ru.practicum.explorewithme.event.EventMapper;
-import ru.practicum.explorewithme.event.QEvent;
 import ru.practicum.explorewithme.event.EventRepository;
+import ru.practicum.explorewithme.event.QEvent;
 import ru.practicum.explorewithme.event.dto.EventFullDto;
 import ru.practicum.explorewithme.event.dto.NewEventDto;
 import ru.practicum.explorewithme.event.service.EventServiceAdmin;

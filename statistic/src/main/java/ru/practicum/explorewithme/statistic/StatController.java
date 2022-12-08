@@ -12,7 +12,6 @@ import ru.practicum.explorewithme.statistic.service.StatService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j

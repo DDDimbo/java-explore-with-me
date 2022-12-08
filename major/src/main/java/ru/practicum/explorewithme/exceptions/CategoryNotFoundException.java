@@ -1,7 +1,5 @@
 package ru.practicum.explorewithme.exceptions;
 
-import javax.validation.ConstraintViolationException;
-
 public class CategoryNotFoundException extends RuntimeException {
 
 

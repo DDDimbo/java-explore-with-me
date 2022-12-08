@@ -1,10 +1,9 @@
 package ru.practicum.explorewithme.event.service;
 
 import ru.practicum.explorewithme.enums.State;
-import ru.practicum.explorewithme.event.dto.NewEventDto;
 import ru.practicum.explorewithme.event.dto.EventFullDto;
+import ru.practicum.explorewithme.event.dto.NewEventDto;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 

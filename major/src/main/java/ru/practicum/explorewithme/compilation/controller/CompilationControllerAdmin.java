@@ -3,12 +3,10 @@ package ru.practicum.explorewithme.compilation.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.compilation.dto.CompilationDto;
 import ru.practicum.explorewithme.compilation.dto.NewCompilationDto;
 import ru.practicum.explorewithme.compilation.service.CompilationServiceAdmin;
-import ru.practicum.explorewithme.markerinterface.Create;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
