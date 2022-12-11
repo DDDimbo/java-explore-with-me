@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.comment.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -31,5 +32,6 @@ public class CommentDto {
     private Boolean visited;
 
     @Null(groups = Update.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime written;
 }

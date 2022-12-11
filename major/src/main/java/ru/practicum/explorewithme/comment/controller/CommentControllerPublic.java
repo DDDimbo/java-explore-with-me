@@ -19,16 +19,10 @@ public class CommentControllerPublic {
 
     private final CommentServicePublic commentServicePublic;
 
-    @GetMapping("/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
-    public CommentDto findById(@PathVariable @Positive Long commentId) {
-        log.info("Find comment by id={} for public layer", commentId);
-        return commentServicePublic.findById(commentId);
-    }
 
     @GetMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CommentDto> findAll(@PathVariable @Positive Long eventId,
+    public List<CommentDto> findAll(@PathVariable(name = "eventId") @Positive Long eventId,
                                     @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                     @RequestParam(defaultValue = "10") @PositiveOrZero Integer size,
                                     @RequestParam(name = "order", defaultValue = "asc") String sortOrder) {

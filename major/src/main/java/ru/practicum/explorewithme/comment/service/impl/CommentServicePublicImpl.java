@@ -10,7 +10,6 @@ import ru.practicum.explorewithme.comment.CommentRepository;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
 import ru.practicum.explorewithme.comment.service.CommentServicePublic;
 import ru.practicum.explorewithme.event.EventRepository;
-import ru.practicum.explorewithme.exceptions.CommentNotFoundException;
 import ru.practicum.explorewithme.exceptions.CustomValidationException;
 import ru.practicum.explorewithme.exceptions.EventNotFoundException;
 import ru.practicum.explorewithme.utility.FromSizeRequest;
@@ -31,14 +30,8 @@ public class CommentServicePublicImpl implements CommentServicePublic {
     private final EventRepository eventRepository;
 
     @Override
-    public CommentDto findById(Long commentId) {
-        return CommentMapper.toCommentDto(commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException("Комментария с id=" + commentId + " не найдено.")));
-    }
-
-    @Override
     public List<CommentDto> findAll(Long eventId, Integer from, Integer size, String sortOrder) {
-        if (eventRepository.existsById(eventId))
+        if (!eventRepository.existsById(eventId))
             throw new EventNotFoundException("События с id=" + eventId + " не существует.");
         Pageable pageable;
         if (sortOrder.equalsIgnoreCase(ASC.getOrder()))

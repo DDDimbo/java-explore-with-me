@@ -42,7 +42,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
 
     @Override
     public CommentDto create(Long userId, CommentCreateDto newComment) {
-        if (userRepository.existsById(userId))
+        if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
         Event event = eventRepository.findById(newComment.getEventId())
                 .orElseThrow(() -> new EventNotFoundException("События с id=" + newComment.getEventId() + " не найдено."));
@@ -58,13 +58,13 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
 
     @Override
     public CommentDto change(Long userId, Long commentId, CommentDto commentDto) {
-        if (userRepository.existsById(userId))
+        if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
-        if (commentRepository.existsByIdAndWriterId(commentId, userId))
+        if (!commentRepository.existsByIdAndWriterId(commentId, userId))
             throw new IllegalArgumentException(
                     "Комментария с параметрами id=" + commentId + " и userId=" + userId + " не существует."
             );
-        if (commentRepository.timeCheck(commentId, LocalDateTime.now().minusHours(1)))
+        if (!commentRepository.timeCheck(commentId, LocalDateTime.now().minusHours(1)))
             throw new RangeTimeException("Отредактировать комментарий можно не позднее, чем через час после публикации.");
         commentRepository.setNewText(commentDto.getText(), commentId);
         commentRepository.setNewText(commentDto.getText(), commentId);
@@ -74,9 +74,9 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
 
     @Override
     public void delete(Long userId, Long commentId) {
-        if (userRepository.existsById(userId))
+        if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
-        if (commentRepository.existsByIdAndWriterId(commentId, userId))
+        if (!commentRepository.existsByIdAndWriterId(commentId, userId))
             throw new IllegalArgumentException(
                     "Комментария с параметрами id=" + commentId + " и userId=" + userId + " не существует."
             );
@@ -85,7 +85,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
 
     @Override
     public List<CommentDto> findAllForWriter(Long userId, Integer from, Integer size, String sortOrder) {
-        if (userRepository.existsById(userId))
+        if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
         Pageable pageable;
         if (sortOrder.equalsIgnoreCase(ASC.getOrder()))
