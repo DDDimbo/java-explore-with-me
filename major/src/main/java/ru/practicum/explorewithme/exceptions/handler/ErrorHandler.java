@@ -47,7 +47,7 @@ public class ErrorHandler {
 
     @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class,
             EventNotFoundException.class, CompilationNotFoundException.class, RequestNotFoundException.class,
-            IllegalArgumentException.class})
+            IllegalArgumentException.class, CommentNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFoundException(final RuntimeException e) {
         log.warn("Объект не найден (404) - {}", e.getMessage(), e);
