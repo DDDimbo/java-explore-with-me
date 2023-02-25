@@ -19,7 +19,7 @@ Java, Spring, Spring Boot, Maven, Lombook, PostgreSQL, Docker, Hibernate, QueryD
 
 ![2023-02-24_22-06-25](https://user-images.githubusercontent.com/92802270/221269596-fecaa943-ab14-4494-a2e6-e55e58ea6cbd.png)
 
-Сервис статистики:
+<h3> Сервис статистики: </h3>
 
 
 ![image](https://user-images.githubusercontent.com/92802270/221270128-03c85291-3447-41a4-a3ce-5a79b7b4f5af.png)
