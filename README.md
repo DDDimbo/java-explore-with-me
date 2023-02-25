@@ -14,7 +14,7 @@ Java, Spring, Spring Boot, Maven, Lombook, PostgreSQL, Docker, Hibernate, QueryD
 
 ## База данных
 
-<h1> Основной сервис: <h1> 
+<h4> Основной сервис: </h4> 
 
 
 ![2023-02-24_22-06-25](https://user-images.githubusercontent.com/92802270/221269596-fecaa943-ab14-4494-a2e6-e55e58ea6cbd.png)
