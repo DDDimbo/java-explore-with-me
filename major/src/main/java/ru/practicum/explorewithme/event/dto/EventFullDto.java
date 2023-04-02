@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Builder
 public class EventFullDto {
 
-
     @Positive
     private Long id;
 

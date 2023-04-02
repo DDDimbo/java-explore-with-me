@@ -39,7 +39,7 @@ public class CommentControllerPrivate {
     @DeleteMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable @Positive Long userId,
-                             @PathVariable @Positive Long commentId) {
+                       @PathVariable @Positive Long commentId) {
         log.info("Delete comment({}) by user({})", commentId, userId);
         commentServicePrivate.delete(userId, commentId);
     }
@@ -52,5 +52,21 @@ public class CommentControllerPrivate {
                                              @RequestParam(name = "order", defaultValue = "asc") String sortOrder) {
         log.info("Find all comments which wrote user({})", userId);
         return commentServicePrivate.findAllForWriter(userId, from, size, sortOrder);
+    }
+
+    @PatchMapping("/{commentId}/like")
+    @ResponseStatus(HttpStatus.OK)
+    public CommentDto likeComment(@PathVariable @Positive Long userId,
+                                        @PathVariable @Positive Long commentId) {
+        log.info("Patch method: like comment. userId={}; commentId={}", userId, commentId);
+        return commentServicePrivate.likeComment(userId, commentId);
+    }
+
+    @PatchMapping("/{commentId}/dislike")
+    @ResponseStatus(HttpStatus.OK)
+    public CommentDto dislikeComment(@PathVariable @Positive Long userId,
+                                           @PathVariable @Positive Long commentId) {
+        log.info("Patch method: dislike comment.");
+        return commentServicePrivate.dislikeComment(userId, commentId);
     }
 }

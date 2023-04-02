@@ -26,4 +26,5 @@ public interface EventServicePrivate {
     EventFullDto findAllInfoAboutEvent(Long userId, Long eventId);
 
     List<ParticipationRequestDto> findAllInfoAboutPartInEvent(Long userId, Long eventId);
+
 }

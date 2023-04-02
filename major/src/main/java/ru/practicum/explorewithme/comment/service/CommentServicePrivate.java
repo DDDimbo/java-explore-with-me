@@ -14,4 +14,9 @@ public interface CommentServicePrivate {
     void delete(Long userId, Long commentId);
 
     List<CommentDto> findAllForWriter(Long userId, Integer from, Integer size, String sortOrder);
+
+    CommentDto likeComment(Long userId, Long commentId);
+
+    CommentDto dislikeComment(Long userId, Long commentId);
+
 }

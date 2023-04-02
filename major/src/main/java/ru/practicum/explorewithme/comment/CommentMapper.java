@@ -34,4 +34,17 @@ public final class CommentMapper {
                 .written(comment.getWritten())
                 .build();
     }
+
+    public static CommentDto toCommentDto(Comment comment, Long likes, Long dislikes) {
+        return CommentDto.builder()
+                .id(comment.getId())
+                .text(comment.getText())
+                .event(EventMapper.toEventShortDto(comment.getEvent()))
+                .writerId(comment.getWriterId())
+                .visited(comment.getVisited())
+                .written(comment.getWritten())
+                .likes(likes)
+                .dislikes(dislikes)
+                .build();
+    }
 }

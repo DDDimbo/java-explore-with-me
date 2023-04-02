@@ -93,4 +93,18 @@ public class EventControllerPrivate {
         log.info("Find all info about participant in event(id={}), where initiatorId={}", eventId, userId);
         return eventServicePrivate.findAllInfoAboutPartInEvent(userId, eventId);
     }
+
+    @PatchMapping("/{eventId}/like")
+    @ResponseStatus(HttpStatus.OK)
+    public void likeEvent(@PathVariable @Positive Long userId,
+                          @PathVariable @Positive Long eventId) {
+
+    }
+
+    @PatchMapping("/{eventId}/dislike")
+    @ResponseStatus(HttpStatus.OK)
+    public void dislikeEvent(@PathVariable @Positive Long userId,
+                          @PathVariable @Positive Long eventId) {
+
+    }
 }

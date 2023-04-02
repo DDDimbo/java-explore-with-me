@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.comment.CommentMapper;
-import ru.practicum.explorewithme.comment.CommentRepository;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
+import ru.practicum.explorewithme.comment.repository.CommentRepository;
 import ru.practicum.explorewithme.comment.service.CommentServiceAdmin;
 import ru.practicum.explorewithme.exceptions.CommentNotFoundException;
 

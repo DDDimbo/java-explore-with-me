@@ -40,14 +40,10 @@ public class EventServicePrivateImpl implements EventServicePrivate {
     @Transactional
     @Override
     public EventFullDto create(Long initiatorId, NewEventDto eventDto) {
-        User initiator = userRepository.findById(initiatorId)
-                .orElseThrow(() -> new UserNotFoundException("Пользователя с id = " + initiatorId + " не найдено"));
+        User initiator = userRepository.findById(initiatorId).orElseThrow(() -> new UserNotFoundException("Пользователя с id = " + initiatorId + " не найдено"));
         if (eventDto.getEventDate().minusHours(2).isBefore(LocalDateTime.now()))
             throw new RangeTimeException("Создать новое событие можно не позднее, чем за 2 часа до его начала");
-        Category category = categoryRepository.findById(eventDto.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException(
-                        "Категории с таким с id = " + eventDto.getCategoryId() + "не найдено")
-                );
+        Category category = categoryRepository.findById(eventDto.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException("Категории с таким с id = " + eventDto.getCategoryId() + "не найдено"));
         Event result = eventRepository.save(EventMapper.toEventCreate(initiator, category, eventDto));
         return EventMapper.toEventFullDto(result);
     }
@@ -55,8 +51,7 @@ public class EventServicePrivateImpl implements EventServicePrivate {
     @Transactional
     @Override
     public EventFullDto change(Long initiatorId, UpdateEventRequest updateEvent) {
-        Event event = eventRepository.findById(updateEvent.getEventId())
-                .orElseThrow(() -> new EventNotFoundException("События с id = " + updateEvent.getEventId() + " не найдено."));
+        Event event = eventRepository.findById(updateEvent.getEventId()).orElseThrow(() -> new EventNotFoundException("События с id = " + updateEvent.getEventId() + " не найдено."));
 
         // Валидация
         if (!event.getInitiator().getId().equals(initiatorId))
@@ -67,26 +62,18 @@ public class EventServicePrivateImpl implements EventServicePrivate {
             throw new RangeTimeException("Создать новое событие можно не позднее, чем за 2 часа до нового события");
 
         // Обновление
-        if (event.getState().equals(State.CANCELED))
-            event.setState(State.PENDING);
-        if (updateEvent.getAnnotation() != null)
-            event.setAnnotation(updateEvent.getAnnotation());
-        if (updateEvent.getDescription() != null)
-            event.setDescription(updateEvent.getDescription());
-        if (updateEvent.getTitle() != null)
-            event.setTitle(updateEvent.getTitle());
-        if (updateEvent.getPaid() != null)
-            event.setPaid(updateEvent.getPaid());
+        if (event.getState().equals(State.CANCELED)) event.setState(State.PENDING);
+        if (updateEvent.getAnnotation() != null) event.setAnnotation(updateEvent.getAnnotation());
+        if (updateEvent.getDescription() != null) event.setDescription(updateEvent.getDescription());
+        if (updateEvent.getTitle() != null) event.setTitle(updateEvent.getTitle());
+        if (updateEvent.getPaid() != null) event.setPaid(updateEvent.getPaid());
         if (updateEvent.getCategoryId() != null) {
             Long categoryId = updateEvent.getCategoryId();
-            Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new CategoryNotFoundException("Категории с таким с id = " + categoryId + "не найдено."));
+            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Категории с таким с id = " + categoryId + "не найдено."));
             event.setCategory(category);
         }
-        if (updateEvent.getEventDate() != null)
-            event.setEventDate(updateEvent.getEventDate());
-        if (updateEvent.getParticipantLimit() != null)
-            event.setParticipantLimit(updateEvent.getParticipantLimit());
+        if (updateEvent.getEventDate() != null) event.setEventDate(updateEvent.getEventDate());
+        if (updateEvent.getParticipantLimit() != null) event.setParticipantLimit(updateEvent.getParticipantLimit());
 
         return EventMapper.toEventFullDto(eventRepository.save(event));
     }
@@ -99,8 +86,7 @@ public class EventServicePrivateImpl implements EventServicePrivate {
         if (!eventRepository.existsByIdAndState(eventId, State.PENDING))
             throw new UserAccessException("Можно отменить только событие находящееся в модерации.");
         eventRepository.setCancelByInitiator(eventId, State.CANCELED);
-        return EventMapper.toEventFullDto(eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не существует.")));
+        return EventMapper.toEventFullDto(eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не существует.")));
     }
 
     @Override
@@ -108,25 +94,21 @@ public class EventServicePrivateImpl implements EventServicePrivate {
         if (!userRepository.existsById(initiatorId))
             throw new IllegalArgumentException("Передан некорректный путь запроса");
         Pageable pageable = FromSizeRequest.of(from, size);
-        return eventRepository.findAllByInitiator_Id(initiatorId, pageable).stream()
-                .map(EventMapper::toEventFullDto)
-                .collect(Collectors.toList());
+        return eventRepository.findAllByInitiator_Id(initiatorId, pageable).stream().map(EventMapper::toEventFullDto).collect(Collectors.toList());
     }
 
     @Override
     public EventFullDto findAllInfoAboutEvent(Long initiatorId, Long eventId) {
         if (!eventRepository.existsByIdAndInitiator_Id(eventId, initiatorId))
             throw new IllegalArgumentException("Передан некорректный путь запроса");
-        return EventMapper.toEventFullDto(eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не найдено.")));
+        return EventMapper.toEventFullDto(eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не найдено.")));
     }
 
     @Transactional
     @Override
     public ParticipationRequestDto confirm(Long initiatorId, Long requestId, Long eventId) {
         // Выгрузка данных и валидация
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не найдено."));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не найдено."));
         if (!event.getInitiator().getId().equals(initiatorId))
             throw new UserAccessException("Пользователь c id=" + initiatorId + " не является создателем события");
         if (!requestRepository.existsByIdAndEventId(requestId, eventId))
@@ -145,16 +127,14 @@ public class EventServicePrivateImpl implements EventServicePrivate {
         event.setConfirmedRequests(event.getConfirmedRequests() + 1);
         eventRepository.setNewConfirmedRequests(event.getId(), event.getConfirmedRequests());
 
-        return RequestMapper.toParticipationRequestDto(requestRepository.findById(requestId)
-                .orElseThrow(() -> new RequestNotFoundException("Запрос с id=" + requestId + " не найден.")));
+        return RequestMapper.toParticipationRequestDto(requestRepository.findById(requestId).orElseThrow(() -> new RequestNotFoundException("Запрос с id=" + requestId + " не найден.")));
     }
 
     @Transactional
     @Override
     public ParticipationRequestDto reject(Long initiatorId, Long requestId, Long eventId) {
         // Выгрузка данных и валидация
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не найдено."));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("События с id=" + eventId + " не найдено."));
         if (!event.getInitiator().getId().equals(initiatorId))
             throw new UserAccessException("Пользователь c id=" + initiatorId + " не является создателем события");
         if (!requestRepository.existsByIdAndEventId(requestId, eventId))
@@ -162,16 +142,14 @@ public class EventServicePrivateImpl implements EventServicePrivate {
         // Обновление данных
         requestRepository.setStatusForRequest(requestId, Status.REJECTED);
 
-        return RequestMapper.toParticipationRequestDto(requestRepository.findById(requestId)
-                .orElseThrow(() -> new RequestNotFoundException("Запрос с id=" + requestId + " не найден.")));
+        return RequestMapper.toParticipationRequestDto(requestRepository.findById(requestId).orElseThrow(() -> new RequestNotFoundException("Запрос с id=" + requestId + " не найден.")));
     }
 
     @Override
     public List<ParticipationRequestDto> findAllInfoAboutPartInEvent(Long initiatorId, Long eventId) {
         if (!eventRepository.existsByIdAndInitiator_Id(eventId, initiatorId))
             throw new IllegalArgumentException("Передан некорректный путь запроса");
-        return requestRepository.findAllByEventId(eventId).stream()
-                .map(RequestMapper::toParticipationRequestDto)
-                .collect(Collectors.toList());
+        return requestRepository.findAllByEventId(eventId).stream().map(RequestMapper::toParticipationRequestDto).collect(Collectors.toList());
     }
+
 }
