@@ -44,4 +44,5 @@ public class CommentDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @PositiveOrZero
     private Long dislikes;
+
 }

@@ -1,11 +1,10 @@
 package ru.practicum.explorewithme.rating;
 
 import lombok.*;
+import ru.practicum.explorewithme.comment.Comment;
+import ru.practicum.explorewithme.user.User;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -22,17 +21,17 @@ public class Rating {
     @EmbeddedId
     private RatingKey id;
 
-//    @NotNull
-//    @ManyToOne
-//    @MapsId("commentIdKey")
-//    @JoinColumn(name = "comment_id")
-//    private Comment comment;
-//
-//    @NotNull
-//    @ManyToOne
-//    @MapsId("userIdKey")
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @NotNull
+    @ManyToOne
+    @MapsId("commentIdKey")
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @NotNull
+    @ManyToOne
+    @MapsId("userIdKey")
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @NotNull
     @Column(name = "like_dislike")

@@ -50,7 +50,7 @@ public class CommentControllerPrivate {
                                              @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                              @RequestParam(defaultValue = "10") @PositiveOrZero Integer size,
                                              @RequestParam(name = "order", defaultValue = "asc") String sortOrder) {
-        log.info("Find all comments which wrote user({})", userId);
+        log.info("Find all comments which was written by user({})", userId);
         return commentServicePrivate.findAllForWriter(userId, from, size, sortOrder);
     }
 

@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.estimation;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,6 +7,7 @@ import ru.practicum.explorewithme.event.Event;
 import ru.practicum.explorewithme.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode
 @AllArgsConstructor

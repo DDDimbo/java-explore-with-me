@@ -21,6 +21,7 @@ import ru.practicum.explorewithme.rating.Rating;
 import ru.practicum.explorewithme.rating.RatingKey;
 import ru.practicum.explorewithme.rating.RatingRepository;
 import ru.practicum.explorewithme.request.RequestRepository;
+import ru.practicum.explorewithme.user.User;
 import ru.practicum.explorewithme.user.UserRepository;
 import ru.practicum.explorewithme.utility.FromSizeRequest;
 
@@ -109,10 +110,14 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         else
             throw new CustomValidationException("Значение сортировки заданно не верно.");
 
-//        return commentRepository.findAllById(userId, pageable).stream()
-//                .map(CommentMapper::toCommentDto)
-//                .collect(Collectors.toList());
-        return commentRepository.findAllCommentsWithFullInfoByUserId(userId);
+        log.info("BEFORE");
+        System.out.println(commentRepository.findAllCommentsWithFullInfoByUserIdJPQL(userId, pageable).get(0).getEvent());
+
+        System.out.println(CommentMapper.toCommentDto(commentRepository.findAllCommentsWithFullInfoByUserIdJPQL(userId, pageable)));
+        log.info("RESULT");
+//        System.out.println("________________________");
+//        System.out.println(CommentMapper.toCommentDto(commentRepository.findAllCommentsWithFullInfoByUserIdNative(userId)));
+        return null;
     }
 
     @Override
@@ -120,6 +125,8 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         // Дополнительная валидация
         if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id=" + userId + " не найден."));
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CommentNotFoundException("Комментарий с id=" + commentId + " не найден."));
 
@@ -130,6 +137,8 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         else
             ratingRepository.save(Rating.builder()
                     .id(ratingKey)
+                    .comment(comment)
+                    .user(user)
                     .likeDislike(true)
                     .build());
 
@@ -143,6 +152,8 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         // Дополнительная валидация
         if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id=" + userId + " не найден."));
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CommentNotFoundException("Комментарий с id=" + commentId + " не найден."));
 
@@ -153,6 +164,8 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         else
             ratingRepository.save(Rating.builder()
                     .id(ratingKey)
+                    .comment(comment)
+                    .user(user)
                     .likeDislike(false)
                     .build());
 

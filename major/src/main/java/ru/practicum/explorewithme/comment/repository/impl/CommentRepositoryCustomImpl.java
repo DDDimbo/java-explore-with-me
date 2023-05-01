@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
+import lombok.extern.slf4j.Slf4j;
 import ru.practicum.explorewithme.comment.Comment;
 import ru.practicum.explorewithme.comment.QComment;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
@@ -16,7 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-
+@Slf4j
 public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 
     @PersistenceContext
@@ -33,10 +34,12 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
         NumberPath<Long> likes = Expressions.numberPath(Long.class, "likes");
         NumberPath<Long> dislikes = Expressions.numberPath(Long.class, "dislikes");
 
-        NumberExpression<Long> likesExpression = rating.likeDislike.eq(true).count();
-        NumberExpression<Long> dislikesExpression = rating.likeDislike.eq(false).count();
+        NumberExpression<Long> likesExpression = rating.likeDislike.eq(true).count().as(likes);
+        NumberExpression<Long> dislikesExpression = rating.likeDislike.eq(false).count().as(dislikes);
 
-        return query.select(Projections.constructor(
+
+        log.info("QUERY STARTED");
+        List<CommentDto> cdd = query.select(Projections.constructor(
                         CommentDto.class,
                         comment.id,
                         comment.text,
@@ -47,9 +50,11 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                         likesExpression,
                         dislikesExpression))
                 .from(comment)
-                .leftJoin(rating).on(comment.id.eq(rating.commentId))
+                .leftJoin(rating).on(comment.id.eq(rating.comment.id))
                 .where(where)
                 .groupBy(comment.id, comment.text, comment.writerId, comment.event, comment.visited, comment.written)
                 .fetch();
+        log.info("QUERY STARTED");
+        return null;
     }
 }
