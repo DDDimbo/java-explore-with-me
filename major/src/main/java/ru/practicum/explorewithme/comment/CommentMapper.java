@@ -55,7 +55,7 @@ public final class CommentMapper {
         return CommentDto.builder()
                 .id(commentDtoView.getId())
                 .text(commentDtoView.getText())
-//                .event(EventMapper.toEventShortDto(commentDtoView.getEvent()))
+                .event(EventMapper.toEventShortDto(commentDtoView.getEvent()))
                 .writerId(commentDtoView.getWriterId())
                 .visited(commentDtoView.getVisited())
                 .written(commentDtoView.getWritten())
@@ -63,20 +63,7 @@ public final class CommentMapper {
                 .dislikes(commentDtoView.getDislikes())
                 .build();
     }
-//
-//
-//    public static CommentDto toCommentDto(CommentDtoView commentDtoView) {
-//        return CommentDto.builder()
-//                .id(commentDtoView.getId())
-//                .text(commentDtoView.getText())
-//                .event(EventMapper.toEventShortDto(commentDtoView.getEventId()))
-//                .writerId(commentDtoView.getWriterId())
-//                .visited(commentDtoView.getVisited())
-//                .written(commentDtoView.getWritten())
-//                .likes(commentDtoView.getLikes())
-//                .dislikes(commentDtoView.getDislikes())
-//                .build();
-//    }
+
 
     public static List<CommentDto> toCommentDto(List<CommentDtoView> comments) {
         final List<CommentDto> result = new ArrayList<>();

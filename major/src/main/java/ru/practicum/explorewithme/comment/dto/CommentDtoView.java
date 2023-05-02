@@ -21,4 +21,6 @@ public interface CommentDtoView {
     Long getLikes();
 
     Long getDislikes();
+
+    Boolean getChanged();
 }

@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.comment.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jdk.jfr.BooleanFlag;
 import lombok.*;
 import ru.practicum.explorewithme.event.dto.EventShortDto;
 import ru.practicum.explorewithme.markerinterface.Update;
@@ -36,6 +37,9 @@ public class CommentDto {
     @Null(groups = Update.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime written;
+
+    @BooleanFlag
+    private Boolean changed;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @PositiveOrZero

@@ -10,6 +10,7 @@ import ru.practicum.explorewithme.comment.Comment;
 import ru.practicum.explorewithme.comment.CommentMapper;
 import ru.practicum.explorewithme.comment.dto.CommentCreateDto;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
+import ru.practicum.explorewithme.comment.dto.CommentUpdateDto;
 import ru.practicum.explorewithme.comment.repository.CommentRepository;
 import ru.practicum.explorewithme.comment.service.CommentServicePrivate;
 import ru.practicum.explorewithme.enums.State;
@@ -47,6 +48,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
 
     private final RatingRepository ratingRepository;
 
+
     @Override
     public CommentDto create(Long userId, CommentCreateDto newComment) {
         if (!userRepository.existsById(userId))
@@ -63,8 +65,9 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         return CommentMapper.toCommentDto(result, 0L, 0L);
     }
 
+    // change flag
     @Override
-    public CommentDto change(Long userId, Long commentId, CommentDto commentDto) {
+    public CommentDto change(Long userId, Long commentId, CommentUpdateDto commentUpdateDto) {
         if (!userRepository.existsById(userId))
             throw new UserNotFoundException("Пользователь с id=" + userId + " не зарегистрирован.");
         if (!commentRepository.existsByIdAndWriterId(commentId, userId))
@@ -73,8 +76,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
             );
         if (!commentRepository.timeCheck(commentId, LocalDateTime.now().minusHours(1)))
             throw new RangeTimeException("Отредактировать комментарий можно не позднее, чем через час после публикации.");
-        commentRepository.setNewText(commentDto.getText(), commentId);
-        commentRepository.setNewText(commentDto.getText(), commentId);
+        commentRepository.setNewText(commentUpdateDto.getText(), commentId);
 
         RatingKey ratingKey = new RatingKey(commentId, userId);
         Long likes = ratingRepository.countByIdAndLikeDislikeIsTrue(ratingKey);
@@ -84,6 +86,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
                         .orElseThrow(() -> new CommentNotFoundException("Комментария с id=" + commentId + " не найдено.")),
                 likes,
                 dislikes);
+      //  return CommentMapper.toCommentDto(commentRepository.findCommentsWithFullInfoById(commentId));
     }
 
     @Override
@@ -110,14 +113,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         else
             throw new CustomValidationException("Значение сортировки заданно не верно.");
 
-        log.info("BEFORE");
-        System.out.println(commentRepository.findAllCommentsWithFullInfoByUserIdJPQL(userId, pageable).get(0).getEvent());
-
-        System.out.println(CommentMapper.toCommentDto(commentRepository.findAllCommentsWithFullInfoByUserIdJPQL(userId, pageable)));
-        log.info("RESULT");
-//        System.out.println("________________________");
-//        System.out.println(CommentMapper.toCommentDto(commentRepository.findAllCommentsWithFullInfoByUserIdNative(userId)));
-        return null;
+        return CommentMapper.toCommentDto(commentRepository.findAllCommentsWithFullInfoByUserIdJPQL(userId, pageable));
     }
 
     @Override

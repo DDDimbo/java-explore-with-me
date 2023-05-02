@@ -1,22 +1,17 @@
 package ru.practicum.explorewithme.comment.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @ToString
 @Getter
-@Builder
-public class CommentCreateDto {
+@AllArgsConstructor
+public class CommentUpdateDto {
 
     @NotNull
     private String text;
-
-    @NotNull
-    @Positive
-    private Long eventId;
 
 }

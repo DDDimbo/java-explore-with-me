@@ -40,6 +40,10 @@ public class Comment {
     @NotNull
     private LocalDateTime written;
 
+
+    @NotNull
+    private Boolean changed;
+
     public Comment() {
 
     }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.comment.dto.CommentCreateDto;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
+import ru.practicum.explorewithme.comment.dto.CommentUpdateDto;
 import ru.practicum.explorewithme.comment.service.CommentServicePrivate;
 
 import javax.validation.constraints.Positive;
@@ -31,9 +32,9 @@ public class CommentControllerPrivate {
     @ResponseStatus(HttpStatus.OK)
     public CommentDto change(@PathVariable @Positive Long userId,
                              @PathVariable @Positive Long commentId,
-                             @RequestBody CommentDto commentDto) {
+                             @RequestBody CommentUpdateDto commentUpdateDto) {
         log.info("Change comment({}) by user({})", commentId, userId);
-        return commentServicePrivate.change(userId, commentId, commentDto);
+        return commentServicePrivate.change(userId, commentId, commentUpdateDto);
     }
 
     @DeleteMapping("/{commentId}")

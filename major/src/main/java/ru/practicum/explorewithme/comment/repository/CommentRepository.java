@@ -43,33 +43,50 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "where c.id = ?1 and c.written > ?2")
     boolean timeCheck(Long commentId, LocalDateTime nowMinusHour);
 
+
     @Query("select c.id as id, " +
             "c.text as text, " +
             "c.writerId as writerId, " +
-            "event, " +
             "c.visited as visited, " +
             "c.written as written, " +
             "sum(case when r.likeDislike = true then 1 else 0 end) as likes, " +
-            "sum(case when r.likeDislike = false then 1 else 0 end) as dislikes " +
+            "sum(case when r.likeDislike = false then 1 else 0 end) as dislikes, " +
+            "e as event " +
             "from Comment c " +
-            "inner join c.event event " +
+            "inner join Event e on c.event.id = e.id " +
             "left join Rating r on c.id = r.comment.id " +
-            "where c.writerId = :id " +
-            "group by c.id, c.text, c.writerId, event.id, c.visited, c.written ")
-    List<CommentDtoView> findAllCommentsWithFullInfoByUserIdJPQL(@Param("id") Long useId, Pageable pageable);
+            "where c.id = :id " +
+            "group by c.id, c.text, c.writerId, c.visited, c.written, e ")
+    CommentDtoView findCommentsWithFullInfoById(@Param("id") Long commentId);
 
-    // сортировать по дате
-    @Query(value = "select c.id, " +
-            "c.text, " +
-            "c.writer_id as writerId, " +
-            "c.event_id as eventId, " +
-            "c.visited, " +
-            "c.written, " +
-            "count(r.like_dislike) filter (where r.like_dislike = true)  as likes, " +
-            "count(r.like_dislike) filter (where r.like_dislike = false) as dislikes " +
-            "from comments c " +
-            "left outer join ratings r on c.id = r.comment_id " +
-            "where c.writer_id = :id " +
-            "group by c.id, c.text, c.writer_id, c.event_id, c.visited, c.written", nativeQuery = true)
-    List<CommentDtoView> findAllCommentsWithFullInfoByUserIdNative(@Param("id") Long useId);
+    @Query("select c.id as id, " +
+            "c.text as text, " +
+            "c.writerId as writerId, " +
+            "c.visited as visited, " +
+            "c.written as written, " +
+            "sum(case when r.likeDislike = true then 1 else 0 end) as likes, " +
+            "sum(case when r.likeDislike = false then 1 else 0 end) as dislikes, " +
+            "e as event " +
+            "from Comment c " +
+            "inner join Event e on c.event.id = e.id " +
+            "left join Rating r on c.id = r.comment.id " +
+            "where c.writerId = :user_id " +
+            "group by c.id, c.text, c.writerId, c.visited, c.written, e " +
+            "order by c.written desc")
+    List<CommentDtoView> findAllCommentsWithFullInfoByUserIdJPQL(@Param("user_id") Long useId, Pageable pageable);
+
+
+//    @Query(value = "select c.id, " +
+//            "c.text, " +
+//            "c.writer_id as writerId, " +
+//            "c.event_id as eventId, " +
+//            "c.visited, " +
+//            "c.written, " +
+//            "count(r.like_dislike) filter (where r.like_dislike = true)  as likes, " +
+//            "count(r.like_dislike) filter (where r.like_dislike = false) as dislikes " +
+//            "from comments c " +
+//            "left outer join ratings r on c.id = r.comment_id " +
+//            "where c.writer_id = :id " +
+//            "group by c.id, c.text, c.writer_id, c.event_id, c.visited, c.written", nativeQuery = true)
+//    List<CommentDtoView> findAllCommentsWithFullInfoByUserIdNative(@Param("id") Long useId);
 }

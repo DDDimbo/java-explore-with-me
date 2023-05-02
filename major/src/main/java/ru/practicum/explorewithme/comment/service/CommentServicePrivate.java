@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.comment.service;
 
 import ru.practicum.explorewithme.comment.dto.CommentCreateDto;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
+import ru.practicum.explorewithme.comment.dto.CommentUpdateDto;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface CommentServicePrivate {
 
     CommentDto create(Long userId, CommentCreateDto newComment);
 
-    CommentDto change(Long userId, Long commentId, CommentDto commentDto);
+    CommentDto change(Long userId, Long commentId, CommentUpdateDto commentDto);
 
     void delete(Long userId, Long commentId);
 
