@@ -13,10 +13,8 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class RatingKey implements Serializable {
 
-//    @Column(name = "comment_id")
     private Long commentIdKey;
 
-//    @Column(name = "user_id")
     private Long userIdKey;
 
 }

@@ -22,10 +22,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
     @Override
     Optional<Comment> findById(Long id);
 
-    List<Comment> findAllById(Long id, Pageable pageable);
-
-    List<Comment> findAllByEvent_Id(Long eventId, Pageable pageable);
-
     @Override
     boolean existsById(Long id);
 
@@ -37,6 +33,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
     @Modifying
     @Query("update Comment c set c.text = ?1 where c.id = ?2")
     void setNewText(String newText, Long id);
+
+    @Modifying
+    @Query("update Comment c set c.changed = true where c.id = ?1")
+    void setChangedStatusIsTrue(Long id);
 
     @Query("select count(c) > 0 " +
             "from Comment c " +
@@ -59,6 +59,22 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "group by c.id, c.text, c.writerId, c.visited, c.written, e ")
     CommentDtoView findCommentsWithFullInfoById(@Param("id") Long commentId);
 
+
+    @Query("select c.id as id, " +
+            "c.text as text, " +
+            "c.writerId as writerId, " +
+            "c.visited as visited, " +
+            "c.written as written, " +
+            "sum(case when r.likeDislike = true then 1 else 0 end) as likes, " +
+            "sum(case when r.likeDislike = false then 1 else 0 end) as dislikes, " +
+            "e as event " +
+            "from Comment c " +
+            "inner join Event e on c.event.id = e.id " +
+            "left join Rating r on c.id = r.comment.id " +
+            "where c.event.id = :event_id " +
+            "group by c.id, c.text, c.writerId, c.visited, c.written, e ")
+    List<CommentDtoView> findAllCommentsByEvent(@Param("event_id") Long eventId, Pageable pageable);
+
     @Query("select c.id as id, " +
             "c.text as text, " +
             "c.writerId as writerId, " +
@@ -71,9 +87,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "inner join Event e on c.event.id = e.id " +
             "left join Rating r on c.id = r.comment.id " +
             "where c.writerId = :user_id " +
-            "group by c.id, c.text, c.writerId, c.visited, c.written, e " +
-            "order by c.written desc")
-    List<CommentDtoView> findAllCommentsWithFullInfoByUserIdJPQL(@Param("user_id") Long useId, Pageable pageable);
+            "group by c.id, c.text, c.writerId, c.visited, c.written, e ")
+    List<CommentDtoView> findAllCommentsWithFullInfoByUserIdJPQL(@Param("user_id") Long userId, Pageable pageable);
 
 
 //    @Query(value = "select c.id, " +

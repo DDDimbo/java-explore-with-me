@@ -52,14 +52,6 @@ public interface EventRepository extends JpaRepository<Event, Long>, QuerydslPre
             "where r.id = ?1 and r.requesterId = ?2")
     Optional<Event> findEventByRequestInfo(Long requestId, Long requesterId);
 
-//    @Query("select e.likes " +
-//            "from Event e " +
-//            "where e.id = ?1")
-//    Optional<Set<User>> findLikesById(Long eventId);
-//
-//    @Modifying
-//    @Query("update Event e set e.likes = ?2 where e.id = ?1")
-//    void setNewLikesInfo(Long eventId, Set<User> likes);
 
     @Modifying
     @Query("update Event e set e.confirmedRequests = ?2 where e.id = ?1")

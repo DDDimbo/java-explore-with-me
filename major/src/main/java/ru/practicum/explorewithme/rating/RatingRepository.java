@@ -19,9 +19,9 @@ public interface RatingRepository extends JpaRepository<Rating, RatingKey> {
     @Override
     void deleteById(RatingKey ratingKey);
 
-    long countByIdAndLikeDislikeIsTrue(RatingKey ratingKey);
+    long countById_CommentIdKeyAndLikeDislikeTrue(Long commentId);
 
-    long countByIdAndLikeDislikeIsFalse(RatingKey ratingKey);
+    long countById_CommentIdKeyAndLikeDislikeIsFalse(Long commentId);
 
     @Override
     Page<Rating> findAll(Pageable pageable);

@@ -21,10 +21,11 @@ public class CommentControllerPrivate {
 
     private final CommentServicePrivate commentServicePrivate;
 
+    // нужно ли добавить инфу про евент в запрос?
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CommentDto create(@PathVariable @Positive Long userId, @RequestBody CommentCreateDto newComment) {
-        log.info("Create comment by user({})", userId);
+        log.info("Create comment by user({}) to event {}", userId, newComment.getEventId());
         return commentServicePrivate.create(userId, newComment);
     }
 
@@ -50,7 +51,7 @@ public class CommentControllerPrivate {
     public List<CommentDto> findAllForWriter(@PathVariable @Positive Long userId,
                                              @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                              @RequestParam(defaultValue = "10") @PositiveOrZero Integer size,
-                                             @RequestParam(name = "order", defaultValue = "asc") String sortOrder) {
+                                             @RequestParam(name = "order", defaultValue = "desc") String sortOrder) {
         log.info("Find all comments which was written by user({})", userId);
         return commentServicePrivate.findAllForWriter(userId, from, size, sortOrder);
     }

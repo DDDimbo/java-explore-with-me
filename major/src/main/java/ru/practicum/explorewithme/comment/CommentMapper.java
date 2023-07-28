@@ -27,16 +27,6 @@ public final class CommentMapper {
                 .build();
     }
 
-    public static CommentDto toCommentDto(Comment comment) {
-        return CommentDto.builder()
-                .id(comment.getId())
-                .text(comment.getText())
-                .event(EventMapper.toEventShortDto(comment.getEvent()))
-                .writerId(comment.getWriterId())
-                .visited(comment.getVisited())
-                .written(comment.getWritten())
-                .build();
-    }
 
     public static CommentDto toCommentDto(Comment comment, Long likes, Long dislikes) {
         return CommentDto.builder()
@@ -48,6 +38,7 @@ public final class CommentMapper {
                 .written(comment.getWritten())
                 .likes(likes)
                 .dislikes(dislikes)
+                .changed(comment.isChanged())
                 .build();
     }
 
@@ -61,6 +52,7 @@ public final class CommentMapper {
                 .written(commentDtoView.getWritten())
                 .likes(commentDtoView.getLikes())
                 .dislikes(commentDtoView.getDislikes())
+                .changed(commentDtoView.getChanged())
                 .build();
     }
 

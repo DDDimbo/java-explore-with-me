@@ -1,7 +1,6 @@
 package ru.practicum.explorewithme.comment.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ import java.util.List;
 import static ru.practicum.explorewithme.enums.Order.ASC;
 import static ru.practicum.explorewithme.enums.Order.DESC;
 
-@Slf4j
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -65,7 +64,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         return CommentMapper.toCommentDto(result, 0L, 0L);
     }
 
-    // change flag
+
     @Override
     public CommentDto change(Long userId, Long commentId, CommentUpdateDto commentUpdateDto) {
         if (!userRepository.existsById(userId))
@@ -76,17 +75,12 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
             );
         if (!commentRepository.timeCheck(commentId, LocalDateTime.now().minusHours(1)))
             throw new RangeTimeException("Отредактировать комментарий можно не позднее, чем через час после публикации.");
-        commentRepository.setNewText(commentUpdateDto.getText(), commentId);
 
-        RatingKey ratingKey = new RatingKey(commentId, userId);
-        Long likes = ratingRepository.countByIdAndLikeDislikeIsTrue(ratingKey);
-        Long dislikes = ratingRepository.countByIdAndLikeDislikeIsFalse(ratingKey);
-        return CommentMapper.toCommentDto(
-                commentRepository.findById(commentId)
-                        .orElseThrow(() -> new CommentNotFoundException("Комментария с id=" + commentId + " не найдено.")),
-                likes,
-                dislikes);
-      //  return CommentMapper.toCommentDto(commentRepository.findCommentsWithFullInfoById(commentId));
+        // Смена значений в бд
+        commentRepository.setNewText(commentUpdateDto.getText(), commentId);
+        commentRepository.setChangedStatusIsTrue(commentId);
+
+        return CommentMapper.toCommentDto(commentRepository.findCommentsWithFullInfoById(commentId));
     }
 
     @Override
@@ -100,6 +94,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
         commentRepository.deleteById(commentId);
     }
 
+    // добавить сортировку по лайкам
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> findAllForWriter(Long userId, Integer from, Integer size, String sortOrder) {
@@ -138,9 +133,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
                     .likeDislike(true)
                     .build());
 
-        Long likes = ratingRepository.countByIdAndLikeDislikeIsTrue(ratingKey);
-        Long dislikes = ratingRepository.countByIdAndLikeDislikeIsFalse(ratingKey);
-        return CommentMapper.toCommentDto(comment, likes, dislikes);
+        return CommentMapper.toCommentDto(commentRepository.findCommentsWithFullInfoById(commentId));
     }
 
     @Override
@@ -165,9 +158,7 @@ public class CommentServicePrivateImpl implements CommentServicePrivate {
                     .likeDislike(false)
                     .build());
 
-        Long likes = ratingRepository.countByIdAndLikeDislikeIsTrue(ratingKey);
-        Long dislikes = ratingRepository.countByIdAndLikeDislikeIsFalse(ratingKey);
-        return CommentMapper.toCommentDto(comment, likes, dislikes);
+        return CommentMapper.toCommentDto(commentRepository.findCommentsWithFullInfoById(commentId));
     }
 
 }

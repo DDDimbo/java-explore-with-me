@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.rating;
 
 import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 import ru.practicum.explorewithme.comment.Comment;
 import ru.practicum.explorewithme.user.User;
 
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode
-//@Jacksonized
+@Jacksonized
 @ToString
 @Setter
 @Getter

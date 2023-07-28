@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS comments
     event_id  BIGINT                                  NOT NULL,
     visited   BOOLEAN                                 NOT NULL,
     written   TIMESTAMP                               NOT NULL,
-    changed   BOOLEAN                                 NOT NULL,
+    changed   BOOLEAN DEFAULT FALSE,
     CONSTRAINT pk_comments PRIMARY KEY (id),
     CONSTRAINT fk_comments_event_id FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
     CONSTRAINT fk_comments_writer_id FOREIGN KEY (writer_id) REFERENCES users (id) ON DELETE CASCADE

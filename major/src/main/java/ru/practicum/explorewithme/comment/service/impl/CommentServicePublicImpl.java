@@ -15,7 +15,6 @@ import ru.practicum.explorewithme.exceptions.EventNotFoundException;
 import ru.practicum.explorewithme.utility.FromSizeRequest;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ru.practicum.explorewithme.enums.Order.ASC;
 import static ru.practicum.explorewithme.enums.Order.DESC;
@@ -41,8 +40,6 @@ public class CommentServicePublicImpl implements CommentServicePublic {
         else
             throw new CustomValidationException("Значение сортировки заданно не верно.");
 
-        return commentRepository.findAllByEvent_Id(eventId, pageable).stream()
-                .map(CommentMapper::toCommentDto)
-                .collect(Collectors.toList());
+        return CommentMapper.toCommentDto(commentRepository.findAllCommentsByEvent(eventId, pageable));
     }
 }

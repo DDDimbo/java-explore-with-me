@@ -7,7 +7,6 @@ import ru.practicum.explorewithme.comment.CommentMapper;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
 import ru.practicum.explorewithme.comment.repository.CommentRepository;
 import ru.practicum.explorewithme.comment.service.CommentServiceAdmin;
-import ru.practicum.explorewithme.exceptions.CommentNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,6 @@ public class CommentServiceAdminImpl implements CommentServiceAdmin {
 
     @Override
     public CommentDto findById(Long commentId) {
-        return CommentMapper.toCommentDto(commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException("Комментария с id=" + commentId + " не найдено.")));
+        return CommentMapper.toCommentDto(commentRepository.findCommentsWithFullInfoById(commentId));
     }
 }
