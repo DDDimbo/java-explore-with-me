@@ -2,22 +2,17 @@ package ru.practicum.explorewithme.comment.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.comment.CommentMapper;
 import ru.practicum.explorewithme.comment.dto.CommentDto;
 import ru.practicum.explorewithme.comment.repository.CommentRepository;
 import ru.practicum.explorewithme.comment.service.CommentServicePublic;
+import ru.practicum.explorewithme.comment.utility.CommentSort;
 import ru.practicum.explorewithme.event.EventRepository;
-import ru.practicum.explorewithme.exceptions.CustomValidationException;
 import ru.practicum.explorewithme.exceptions.EventNotFoundException;
-import ru.practicum.explorewithme.utility.FromSizeRequest;
 
 import java.util.List;
-
-import static ru.practicum.explorewithme.enums.Order.ASC;
-import static ru.practicum.explorewithme.enums.Order.DESC;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +27,8 @@ public class CommentServicePublicImpl implements CommentServicePublic {
     public List<CommentDto> findAll(Long eventId, Integer from, Integer size, String sortOrder) {
         if (!eventRepository.existsById(eventId))
             throw new EventNotFoundException("События с id=" + eventId + " не существует.");
-        Pageable pageable;
-        if (sortOrder.equalsIgnoreCase(ASC.getOrder()))
-            pageable = FromSizeRequest.of(from, size, Sort.by("written").ascending());
-        else if (sortOrder.equalsIgnoreCase(DESC.getOrder()))
-            pageable = FromSizeRequest.of(from, size, Sort.by("written").descending());
-        else
-            throw new CustomValidationException("Значение сортировки заданно не верно.");
+
+        final Pageable pageable = CommentSort.sortByTimeAndRating(from, size, sortOrder);
 
         return CommentMapper.toCommentDto(commentRepository.findAllCommentsByEvent(eventId, pageable));
     }

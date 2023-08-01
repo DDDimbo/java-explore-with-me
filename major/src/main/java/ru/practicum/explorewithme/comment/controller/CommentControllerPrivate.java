@@ -21,7 +21,6 @@ public class CommentControllerPrivate {
 
     private final CommentServicePrivate commentServicePrivate;
 
-    // нужно ли добавить инфу про евент в запрос?
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CommentDto create(@PathVariable @Positive Long userId, @RequestBody CommentCreateDto newComment) {
@@ -46,12 +45,13 @@ public class CommentControllerPrivate {
         commentServicePrivate.delete(userId, commentId);
     }
 
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CommentDto> findAllForWriter(@PathVariable @Positive Long userId,
                                              @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                              @RequestParam(defaultValue = "10") @PositiveOrZero Integer size,
-                                             @RequestParam(name = "order", defaultValue = "desc") String sortOrder) {
+                                             @RequestParam(name = "order", defaultValue = "timeDesc") String sortOrder) {
         log.info("Find all comments which was written by user({})", userId);
         return commentServicePrivate.findAllForWriter(userId, from, size, sortOrder);
     }
@@ -59,7 +59,7 @@ public class CommentControllerPrivate {
     @PatchMapping("/{commentId}/like")
     @ResponseStatus(HttpStatus.OK)
     public CommentDto likeComment(@PathVariable @Positive Long userId,
-                                        @PathVariable @Positive Long commentId) {
+                                  @PathVariable @Positive Long commentId) {
         log.info("Patch method: like comment. userId={}; commentId={}", userId, commentId);
         return commentServicePrivate.likeComment(userId, commentId);
     }
@@ -67,7 +67,7 @@ public class CommentControllerPrivate {
     @PatchMapping("/{commentId}/dislike")
     @ResponseStatus(HttpStatus.OK)
     public CommentDto dislikeComment(@PathVariable @Positive Long userId,
-                                           @PathVariable @Positive Long commentId) {
+                                     @PathVariable @Positive Long commentId) {
         log.info("Patch method: dislike comment.");
         return commentServicePrivate.dislikeComment(userId, commentId);
     }

@@ -2,7 +2,10 @@ package ru.practicum.explorewithme.enums;
 
 public enum Order {
 
-    ASC("asc"), DESC("desc");
+
+    TIME_ASC("timeAsc"), TIME_DESC("timeDesc"),
+    LIKES_ASC("likesAsc"), LIKES_DESC("likesDesc"),
+    DISLIKES_ASC("dislikesAsc"), DISLIKES_DESC("dislikesDesc");
 
     private final String order;
 
