@@ -11,6 +11,7 @@
 
 ![smart-thinking-meme](https://user-images.githubusercontent.com/92802270/221357264-baf832aa-f64c-4a1b-a673-990a1be07743.gif)
 
+
 ## Стек технологий
 
 <p align="justify">Java, Spring, Spring Boot, Maven, Lombook, PostgreSQL, Docker, Hibernate, QueryDSL, WebClient.</p>
